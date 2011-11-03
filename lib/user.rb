@@ -21,11 +21,10 @@ class User < Ohm::Model
   def last_update
     shared_items.key["last_update"].get
   end
-  
 
   def share!(params)
     share = Share.create(params)
-    shared_items << share
+    shared_items.unshift share
     shared_items.key["last_update"].set(share.updated_at)
     share
   end

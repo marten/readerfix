@@ -34,6 +34,13 @@ describe User do
       share = subject.share!(url: "http://hiero.com")
       subject.last_update.should == share.updated_at
     end
+
+    it "should return shared items in correct order" do
+      share         = subject.share!(url: "http://hiero.com")
+      another_share = subject.share!(url: "http://daaro.com")
+
+      subject.shared_items.all.should == [another_share, share]
+    end
   end
 
 end
