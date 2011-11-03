@@ -90,7 +90,7 @@ class ReaderFix < Sinatra::Base
           e.links << Atom::Link.new(:href => share.url)
           e.id = "readerfix:item:#{share.id}"
           e.updated = Time.parse(share.updated_at)
-          e.summary = "Some text."
+          e.summary = "Voor de body moet je nog even doorklikken. Maar dat moest op Google+ ook. Het verschil is dat wij wel plannen hebben om dit te verbeteren."
         end
       end
     end.to_xml
