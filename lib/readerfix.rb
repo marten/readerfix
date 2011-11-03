@@ -1,8 +1,10 @@
+$:.unshift(File.expand_path(File.dirname(__FILE__)))
 require 'sinatra/base'
-require_relative 'monkeypatches'
-require_relative 'user'
 require 'atom'
 require 'ohm'
+
+require 'monkeypatches'
+require 'user'
 
 if ENV["REDISTOGO_URL"]
   uri = URI.parse(ENV["REDISTOGO_URL"])
@@ -10,6 +12,37 @@ if ENV["REDISTOGO_URL"]
 end
 
 class ReaderFix < Sinatra::Base
+  get '/' do
+    <<-END
+      <body style="background: black; color: #0f0; font-size: 1.5em">
+      <pre>
+
+
+      Hallo. Welkom op onze mooie site.
+
+      Om dit te gebruiken, moet je in Google Reader een "Send To" ding maken.  De URL die google reader wil is:
+
+      http://#{request.host}/MIJNUSERNAME/VETGEHEIMTOKEN/share?source=${source}&title=${title}&url=${url}&shorturl=${short-url}
+
+      Als dat gelukt is kun je je vrienden op deze URL laten abonneren:
+
+      http://#{request.host}/MIJNUSERNAME.xml
+
+      Vervolgens klik je bij toffe dingen in reader op Send To -> ReaderFix.
+
+
+                                              Groetjes,
+
+                                                Mark & Marten
+                                                Deelbroertjes
+
+
+
+      PS. Het token VETGEHEIMTOKEN is dat niet meer. Misschien wil je een andere.
+      </pre>
+    END
+  end
+
   get '/:username/:token/share' do
     user   = User.by_username(params[:username])
     user ||= User.create(params.hash_from(:username, :token))
@@ -19,7 +52,7 @@ class ReaderFix < Sinatra::Base
     user.share!(params.hash_from(:url, :title, :source, :shorturl))
   end
 
-  get '/:username/rss.xml' do
+  get '/:username.xml' do
     user = User.by_username(params[:username]) or raise "Unknown user"
     feed = Atom::Feed.new do |f|
       f.title = "Feed of #{user.username}"

@@ -1,4 +1,5 @@
 require 'share'
+require 'ohm'
 
 class User < Ohm::Model
   attribute :username

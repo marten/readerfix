@@ -1,1 +1,1 @@
-web: bundle exec ruby lib/readerfix.rb -p $PORT
+web: bundle exec thin -p $PORT start
