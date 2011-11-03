@@ -74,6 +74,14 @@ class ReaderFix < Sinatra::Base
     raise "HACKER" unless user.validate_token(params[:token])
 
     user.share!(params.hash_from(:url, :title, :source, :shorturl))
+
+    <<-END
+    <script>
+    window.close()
+    </script>
+    
+    You share has been saved. This window should have self-destructed.
+    END
   end
 
   get '/:username.xml' do
