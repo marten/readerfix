@@ -2,6 +2,12 @@ require 'sinatra/base'
 require_relative 'monkeypatches'
 require_relative 'user'
 require 'atom'
+require 'ohm'
+
+if ENV["REDISTOGO_URL"]
+  uri = URI.parse(ENV["REDISTOGO_URL"])
+  Ohm.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+end
 
 class ReaderFix < Sinatra::Base
   get '/:username/:token/share' do
