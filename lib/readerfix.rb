@@ -14,6 +14,12 @@ end
 class ReaderFix < Sinatra::Base
   get '/' do
     <<-END
+      <!DOCTYPE html>
+      <html itemscope itemtype="http://schema.org/Webapp">
+      <title>ReaderFix</title>
+      <meta itemprop="name" content="ReaderFix">
+      <meta itemprop="description" content="This site re-enables sharing in Google Reader, so you can go back to ignoring Google+.">
+
       <body style="background: black; color: #0f0; font-size: 1.5em">
       <pre>
 
@@ -49,10 +55,8 @@ class ReaderFix < Sinatra::Base
       PS. Het token VETGEHEIMTOKEN is dat niet meer. Misschien wil je een andere.
       </pre>
 
-      <!-- Place this tag where you want the +1 button to render -->
-      <g:plusone annotation="inline"></g:plusone>
 
-      <!-- Place this render call where appropriate -->
+      <g:plusone size="tall"></g:plusone>
       <script type="text/javascript">
         (function() {
           var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
