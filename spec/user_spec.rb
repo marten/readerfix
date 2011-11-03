@@ -29,6 +29,11 @@ describe User do
       subject.share!(url: "http://hiero.com")
       subject.shared_items.all[0].url.should == "http://hiero.com"
     end
+
+    it "should rememeber last share time" do
+      share = subject.share!(url: "http://hiero.com")
+      subject.last_update.should == share.updated_at
+    end
   end
 
 end

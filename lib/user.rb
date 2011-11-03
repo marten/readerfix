@@ -18,8 +18,16 @@ class User < Ohm::Model
     token == t
   end
 
+  def last_update
+    shared_items.key["last_update"].get
+  end
+  
+
   def share!(params)
-    shared_items << Share.create(params)
+    share = Share.create(params)
+    shared_items << share
+    shared_items.key["last_update"].set(share.updated_at)
+    share
   end
 
 end
