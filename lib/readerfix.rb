@@ -32,6 +32,12 @@ class ReaderFix < Sinatra::Base
 
       http://#{request.host}/MIJNUSERNAME/VETGEHEIMTOKEN/share?source=${source}&title=${title}&url=${url}&shorturl=${short-url}
 
+      Een andere URL die je misschien ook wil is (je kunt er meerdere toevoegen in Reader):
+
+      http://#{request.host}/MIJNUSERNAME/VETGEHEIMTOKEN/note?source=${source}&title=${title}&url=${url}&shorturl=${short-url}
+
+      Als je deze gebruikt krijg je een form waarop je een note kunt invullen.
+
       Als dat gelukt is kun je je vrienden op deze URL laten abonneren:
 
       http://#{request.host}/MIJNUSERNAME.xml
