@@ -7,4 +7,6 @@ class Share < Ohm::Model
   attribute :source
   attribute :title
   attribute :shorturl
+
+  attribute :note
 end

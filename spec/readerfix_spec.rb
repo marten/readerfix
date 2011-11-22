@@ -16,14 +16,16 @@ describe ReaderFix do
   let(:mytitle) { "capistrano-colors" }
   let(:mysource) { "geenidee" }
   let(:myshorturl) { "http://kort.ly" }
+  let(:mynote) { "OHAI HIER EEN NOTE" }
   let(:querystring) do
     "source=#{CGI.escape(mysource)}" + 
     "&title=#{CGI.escape(mytitle)}" + 
     "&url=#{CGI.escape(myurl)}" + 
-    "&shorturl=#{CGI.escape(myshorturl)}"
+    "&shorturl=#{CGI.escape(myshorturl)}" +
+    "&note=#{CGI.escape(mynote)}"
   end
 
-  it "should respond to google reader endpoint" do
+  it "should be able to post a share" do
     get "/username/token/share?" + querystring
     last_response.should be_ok
 
@@ -34,8 +36,15 @@ describe ReaderFix do
     share.shorturl.should == myshorturl
   end
 
+  it "should show a form when sharing with a note" do
+    get "/username/token/note?" + querystring
+    last_response.should be_ok
+    last_response.body.should include("<html")
+    last_response.body.should include("<form")
+  end
+
   it "should not be able to post with a false token" do
-    get "/username/righttoken/share?" + querystring
+    get "/username/righttoken/share?" + querystring # create a user by making a post
     get "/username/wrongtoken/share?" + querystring
     last_response.should_not be_ok
   end
@@ -45,5 +54,6 @@ describe ReaderFix do
     get '/username.xml'
     last_response.body.should include('<feed xmlns="http://www.w3.org/2005/Atom">')
     last_response.body.should include(mytitle)
+    last_response.body.should include(mynote)
   end
 end

@@ -73,7 +73,7 @@ class ReaderFix < Sinatra::Base
 
     raise "HACKER" unless user.validate_token(params[:token])
 
-    user.share!(params.hash_from(:url, :title, :source, :shorturl))
+    user.share!(params.hash_from(:url, :title, :source, :shorturl, :note))
 
     <<-END
     <script>
@@ -81,6 +81,28 @@ class ReaderFix < Sinatra::Base
     </script>
     
     You share has been saved. This window should have self-destructed.
+    END
+  end
+
+  get '/:username/:token/note' do
+    <<-END
+      <!DOCTYPE html>
+      <html itemscope itemtype="http://schema.org/Webapp">
+      <title>ReaderFix</title>
+      <meta itemprop="name" content="ReaderFix">
+      <meta itemprop="description" content="This site re-enables sharing in Google Reader, so you can go back to ignoring Google+.">
+
+      <body style="background: black; color: #0f0; font-size: 1.5em">
+
+      <form action="/#{params[:username]}/#{params[:token]}/share" method="get">
+      <input type="hidden" name="url" value="#{params[:url]}">
+      <input type="hidden" name="title" value="#{params[:title]}">
+      <input type="hidden" name="source" value="#{params[:source]}">
+      <input type="hidden" name="shorturl" value="#{params[:shorturl]}">
+      <label for="note">Note</label><br/>
+      <textarea id="note" name="note" style="width:580px; height:100px"></textarea><br/>
+      <input type="submit">
+      </form>
     END
   end
 
@@ -98,7 +120,7 @@ class ReaderFix < Sinatra::Base
           e.links << Atom::Link.new(:href => share.url)
           e.id = "readerfix:item:#{share.id}"
           e.updated = Time.parse(share.updated_at)
-          e.summary = "Voor de body moet je nog even doorklikken. Maar dat moest op Google+ ook. Het verschil is dat wij wel plannen hebben om dit te verbeteren."
+          e.summary = share.note || ""
         end
       end
     end.to_xml
