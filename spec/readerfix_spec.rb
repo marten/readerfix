@@ -42,7 +42,7 @@ describe ReaderFix do
 
   it "should have an rss feed for a user" do
     get "/username/token/share?" + querystring
-    get '/username/rss.xml'
+    get '/username.xml'
     last_response.body.should include('<feed xmlns="http://www.w3.org/2005/Atom">')
     last_response.body.should include(mytitle)
   end
