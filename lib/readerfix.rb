@@ -13,63 +13,8 @@ end
 
 class ReaderFix < Sinatra::Base
   get '/' do
+    erb :index
     <<-END
-      <!DOCTYPE html>
-      <html itemscope itemtype="http://schema.org/Webapp">
-      <title>ReaderFix</title>
-      <meta itemprop="name" content="ReaderFix">
-      <meta itemprop="description" content="This site re-enables sharing in Google Reader, so you can go back to ignoring Google+.">
-
-      <body style="background: black; color: #0f0; font-size: 1.5em">
-      <pre>
-
-
-      Hallo. Welkom op onze mooie site.
-
-      Google Reader haalt sharing weg, wij geven het terug!
-
-      Om dit te gebruiken, moet je in Google Reader een "Send To" ding maken.  De URL die google reader wil is:
-
-      http://#{request.host}/MIJNUSERNAME/VETGEHEIMTOKEN/share?source=${source}&title=${title}&url=${url}&shorturl=${short-url}
-
-      Een andere URL die je misschien ook wil is (je kunt er meerdere toevoegen in Reader):
-
-      http://#{request.host}/MIJNUSERNAME/VETGEHEIMTOKEN/note?source=${source}&title=${title}&url=${url}&shorturl=${short-url}
-
-      Als je deze gebruikt krijg je een form waarop je een note kunt invullen.
-
-      Als dat gelukt is kun je je vrienden op deze URL laten abonneren:
-
-      http://#{request.host}/MIJNUSERNAME.xml
-
-      Vervolgens klik je bij toffe dingen in reader op Send To -> ReaderFix.
-
-
-      !!! Deze dienst is nog experimenteel, noem het een publieke alpha of zo. Dit betekent dat shit
-      !!! gewoon kan verdwijnen. Als het wat wordt verplaatsen we 'm bovendien misschien wel.
-      !!! Dan moet je je configuratie van Reader misschien aanpassen (maar dan gooien we
-      !!! wel een berichtje in je feed).
-
-
-                                              Groetjes,
-
-                                                Mark & Marten
-                                                Deelbroertjes
-
-
-
-      PS. Het token VETGEHEIMTOKEN is dat niet meer. Misschien wil je een andere.
-      </pre>
-
-
-      <g:plusone size="tall"></g:plusone>
-      <script type="text/javascript">
-        (function() {
-          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-          po.src = 'https://apis.google.com/js/plusone.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
-      </script>
     END
   end
 
@@ -81,35 +26,11 @@ class ReaderFix < Sinatra::Base
 
     user.share!(params.hash_from(:url, :title, :source, :shorturl, :note))
 
-    <<-END
-    <script>
-    window.close()
-    </script>
-    
-    You share has been saved. This window should have self-destructed.
-    END
+    erb :share
   end
 
   get '/:username/:token/note' do
-    <<-END
-      <!DOCTYPE html>
-      <html itemscope itemtype="http://schema.org/Webapp">
-      <title>ReaderFix</title>
-      <meta itemprop="name" content="ReaderFix">
-      <meta itemprop="description" content="This site re-enables sharing in Google Reader, so you can go back to ignoring Google+.">
-
-      <body style="background: black; color: #0f0; font-size: 1.5em">
-
-      <form action="/#{params[:username]}/#{params[:token]}/share" method="get">
-      <input type="hidden" name="url" value="#{params[:url]}">
-      <input type="hidden" name="title" value="#{params[:title]}">
-      <input type="hidden" name="source" value="#{params[:source]}">
-      <input type="hidden" name="shorturl" value="#{params[:shorturl]}">
-      <label for="note">Note</label><br/>
-      <textarea id="note" name="note" style="width:580px; height:100px"></textarea><br/>
-      <input type="submit">
-      </form>
-    END
+    erb :note
   end
 
   get '/:username.xml' do

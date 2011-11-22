@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Webapp">
+<title>ReaderFix</title>
+<meta itemprop="name" content="ReaderFix">
+<meta itemprop="description" content="This site re-enables sharing in Google Reader, so you can go back to ignoring Google+.">
+
+<body style="background: black; color: #0f0; font-size: 1.5em">
+
+<form action="/#{params[:username]}/#{params[:token]}/share" method="get">
+<input type="hidden" name="url" value="#{params[:url]}">
+<input type="hidden" name="title" value="#{params[:title]}">
+<input type="hidden" name="source" value="#{params[:source]}">
+<input type="hidden" name="shorturl" value="#{params[:shorturl]}">
+<label for="note">Note</label><br/>
+<textarea id="note" name="note" style="width:580px; height:100px"></textarea><br/>
+<input type="submit">
+</form>
