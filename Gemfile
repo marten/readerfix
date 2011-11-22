@@ -7,3 +7,7 @@ gem 'ohm-contrib'
 gem 'rspec'
 gem 'rack-test'
 gem 'ratom'
+
+group :development do
+  gem "shotgun"
+end
