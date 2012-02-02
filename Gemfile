@@ -10,4 +10,5 @@ gem 'ratom'
 
 group :development do
   gem "shotgun"
+  gem 'simplecov', :require => false, :group => :test
 end

@@ -1,3 +1,5 @@
+require 'simplecov'
+SimpleCov.start
 require 'ohm'
 
 RSpec.configure do |conf|
